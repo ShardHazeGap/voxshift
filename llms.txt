@@ -1,0 +1,65 @@
+# VoxShift
+
+> VoxShift is a free, open-source AI voice changer for Windows, macOS and Linux that changes your voice in real time (~30 ms) and sends it to Discord, OBS, Twitch, Zoom and games through a virtual microphone.
+
+VoxShift re-synthesizes your voice with an RVC-class neural model instead of only shifting pitch, so breaths, emotion and accent are preserved. Typical end-to-end latency is 25–35 ms on an NVIDIA RTX, AMD RX 6000 or Apple M1 GPU and 45–60 ms in Low-CPU mode. A live latency meter shows the exact number.
+
+It is for gamers, streamers, VTubers, VRChat users, podcasters and content creators. The setup wizard installs a signed "VoxShift Virtual Mic" driver; you select it as the input device in Discord, OBS, Zoom, Teams, Steam, TeamSpeak, VRChat or a game. No Voicemeeter or cable routing is needed.
+
+Everything runs locally, including voice cloning in Voice Lab. There is no account, no telemetry and no ads, and offline mode blocks every network call.
+
+VoxShift does not touch any game process; to the system and to games it is a standard audio input device, like a USB microphone. It is not meant for impersonating real people without consent, fraud, harassment or bypassing voice-based authentication.
+
+## Key facts
+
+- Price: free; no paid tiers, ads, watermarks or time limits
+- License: MIT (open source)
+- Platforms: Windows 10/11 (x64, ARM64), macOS 12+ (Apple Silicon and Intel), Linux x86_64 (AppImage, .deb, Flatpak)
+- Install: installer .exe, portable .zip, winget `VoxShift.VoxShift`, Scoop, Homebrew cask `voxshift`, Flathub `app.voxshift.VoxShift`
+- Offline/privacy: fully offline capable; no account, no telemetry; voice cloning never uploads audio
+- GPU: optional; CUDA, DirectML (AMD/Intel), Apple Metal or CPU
+- Minimum: 4-core CPU (2015+), 4 GB RAM, no GPU (Low-CPU mode)
+- Recommended: 6+ cores, NVIDIA GTX 1660 / RTX 20xx+, AMD RX 6000+ or Apple M1+, 8 GB+ RAM
+- Voice Lab training: 6 GB+ VRAM (NVIDIA) or Apple M-series
+- Version: 1.0.0; releases are signed and ship with SHA-256 checksums
+- Built with: Rust audio engine, Tauri 2, React, ONNX Runtime, PyTorch (Voice Lab)
+
+## Features
+
+- Real-time AI voice conversion with a live latency meter and A/B blend of original and AI voice
+- Voice Lab: train a custom voice model locally from about 10 minutes of audio; export `.pth` / `.onnx`
+- 250+ free AI voices (anime girl, demon, robot, ghost, narrator, monster, ASMR and more)
+- Import any RVC v1/v2 `.pth` or `.onnx` model; community voices in the Voice Hub
+- Soundboard with global hotkeys that work in full-screen games; any key can switch voices
+- Virtual microphone driver for any app with a microphone input
+- AI noise and echo suppression before conversion
+- Voice-to-file converter for MP3, WAV, FLAC, MP4, MKV and MOV (video stream kept intact)
+- Text-to-speech with any voice and emotion
+- Low-CPU mode with under 10% CPU usage on laptops and older PCs
+- WASAPI / ASIO low-latency audio settings
+
+## Common questions
+
+- Is VoxShift really free? — Yes. It is MIT-licensed with no paid tiers, ads, watermarks or time limits.
+- How do I change my voice on Discord for free? — Install VoxShift, pick a voice, click Voice ON, then set Discord's input device to "VoxShift Virtual Mic" in Voice & Video settings.
+- How much latency does it have? — Typically 25–35 ms on a mid-range GPU and 45–60 ms in Low-CPU mode.
+- Can I clone my own voice locally? — Yes. Voice Lab trains a model from about 10 minutes of your audio entirely on your PC; nothing is uploaded.
+- Does VoxShift work without a GPU? — Yes. Low-CPU mode runs lightweight models on any modern 4-core CPU.
+- Will a voice changer get me banned in Valorant, CS2 or Fortnite? — VoxShift does not touch the game process; it is a standard audio input device, like a USB microphone.
+- Can I use RVC models from the internet? — Yes. Import RVC v1/v2 `.pth` or `.onnx` models via Voice Library → Import; respect each model's licence.
+- Does it work on macOS and Linux? — Yes. macOS 12+ uses Metal on Apple Silicon; Linux uses a PipeWire / PulseAudio virtual source.
+- Is VoxShift a Voicemod alternative? — Yes. It covers real-time voices, soundboard, hotkeys and a virtual mic, and adds local voice cloning, file conversion and TTS, free and without an account.
+- Can it change the voice in a video file? — Yes. Converter & TTS replaces only the voice track in MP4, MKV or MOV and keeps the original video.
+
+## Alternatives it is compared with
+
+- Voicemod, Clownfish, MorphVOX Pro, Voice.ai (comparison table in the README)
+
+## Links
+
+- [README](https://github.com/ShardHazeGap/voxshift#readme): full documentation, comparison table and FAQ
+- [Download](https://github.com/ShardHazeGap/voxshift/releases/latest): latest signed release for Windows, macOS and Linux
+- [README (Spanish)](https://github.com/ShardHazeGap/voxshift/blob/main/README.es.md): Spanish translation
+- [README (Arabic)](https://github.com/ShardHazeGap/voxshift/blob/main/README.ar.md): Arabic translation
+- [README (Hindi)](https://github.com/ShardHazeGap/voxshift/blob/main/README.hi.md): Hindi translation
+- [README (Simplified Chinese)](https://github.com/ShardHazeGap/voxshift/blob/main/README.zh-CN.md): Simplified Chinese translation
