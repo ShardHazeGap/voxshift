@@ -1,0 +1,134 @@
+{
+  "_comment": "Run from repo root: python design/render.py .",
+  "jobs": [
+    {
+      "name": "shot-live",
+      "type": "png",
+      "src": "design/app.html#screen=live&cycle=0",
+      "out": "assets/screenshots/live-voice-changer.png",
+      "w": 1280,
+      "h": 800,
+      "scale": 2,
+      "t": 2100,
+      "dur": 6000
+    },
+    {
+      "name": "shot-library",
+      "type": "png",
+      "src": "design/app.html#screen=library",
+      "out": "assets/screenshots/voice-library.png",
+      "w": 1280,
+      "h": 800,
+      "scale": 2,
+      "t": 0
+    },
+    {
+      "name": "shot-voicelab",
+      "type": "png",
+      "src": "design/app.html#screen=voicelab",
+      "out": "assets/screenshots/voice-lab-cloning.png",
+      "w": 1280,
+      "h": 800,
+      "scale": 2,
+      "t": 2700,
+      "dur": 6000
+    },
+    {
+      "name": "shot-soundboard",
+      "type": "png",
+      "src": "design/app.html#screen=soundboard",
+      "out": "assets/screenshots/soundboard-hotkeys.png",
+      "w": 1280,
+      "h": 800,
+      "scale": 2,
+      "t": 400,
+      "dur": 6000
+    },
+    {
+      "name": "shot-converter",
+      "type": "png",
+      "src": "design/app.html#screen=converter",
+      "out": "assets/screenshots/voice-converter-tts.png",
+      "w": 1280,
+      "h": 800,
+      "scale": 2,
+      "t": 0
+    },
+    {
+      "name": "shot-settings",
+      "type": "png",
+      "src": "design/app.html#screen=settings",
+      "out": "assets/screenshots/settings-low-latency.png",
+      "w": 1280,
+      "h": 800,
+      "scale": 2,
+      "t": 0
+    },
+    {
+      "name": "gif-hero",
+      "type": "gif",
+      "src": "design/app.html#screen=live",
+      "out": "assets/gifs/voxshift-demo.gif",
+      "w": 1280,
+      "h": 800,
+      "dur": 6000,
+      "fps": 15,
+      "out_w": 960
+    },
+    {
+      "name": "gif-morph",
+      "type": "gif",
+      "src": "design/anim/morph.html",
+      "out": "assets/gifs/realtime-voice-morph.gif",
+      "w": 1280,
+      "h": 520,
+      "dur": 6000,
+      "fps": 15,
+      "out_w": 960
+    },
+    {
+      "name": "gif-voicelab",
+      "type": "gif",
+      "src": "design/app.html#screen=voicelab",
+      "out": "assets/gifs/voice-lab-training.gif",
+      "w": 1280,
+      "h": 800,
+      "dur": 6000,
+      "fps": 12,
+      "out_w": 960
+    },
+    {
+      "name": "gif-soundboard",
+      "type": "gif",
+      "src": "design/app.html#screen=soundboard",
+      "out": "assets/gifs/soundboard-hotkeys.gif",
+      "w": 1280,
+      "h": 800,
+      "dur": 6000,
+      "fps": 12,
+      "out_w": 960
+    },
+    {
+      "name": "banner-png",
+      "type": "png",
+      "src": "design/marketing/banner.html",
+      "out": "assets/banner.png",
+      "w": 1280,
+      "h": 400,
+      "scale": 2,
+      "t": 600,
+      "dur": 4000
+    },
+    {
+      "name": "social",
+      "type": "png",
+      "src": "design/marketing/social.html",
+      "out": "assets/social-preview.png",
+      "w": 1280,
+      "h": 640,
+      "scale": 1,
+      "t": 600,
+      "dur": 4000
+    }
+  ]
+}

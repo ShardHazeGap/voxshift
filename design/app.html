@@ -1,0 +1,737 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>VoxShift — App UI</title>
+<link rel="stylesheet" href="vx.css">
+<style>
+.scr{display:none}
+.scr.on{display:grid}
+
+/* ===== live ===== */
+.s-live{grid-template-columns:1fr 340px}
+.display{padding:26px 28px 22px;border-bottom:1px solid var(--line)}
+.d-head{display:flex;align-items:center;gap:14px}
+.live{display:flex;align-items:center;gap:7px;font:500 11px var(--mono);letter-spacing:.08em;color:var(--acc)}
+.live i{width:7px;height:7px;border-radius:50%;background:var(--acc)}
+.vname{display:flex;align-items:baseline;gap:18px;margin-top:18px}
+.vname h1{font-size:76px;line-height:.9;font-weight:600;letter-spacing:-.045em;min-width:250px}
+.vname .meta{font:12px/1.7 var(--mono);color:var(--text-2)}
+.vname .meta b{color:var(--text);font-weight:500}
+.lanes{margin-top:26px;display:grid;grid-template-columns:34px 1fr;row-gap:8px;align-items:center}
+.lanes .lbl{font-size:10px}
+.lanes .lane{height:46px}
+.slots-h{display:flex;align-items:center;padding:16px 28px 12px;gap:8px}
+.slots{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 28px 24px;flex:1}
+.slot{background:var(--key);border:1px solid var(--line);border-radius:8px;padding:12px 14px 13px;display:flex;flex-direction:column;justify-content:space-between;gap:14px}
+.slot .top{display:flex;justify-content:space-between;align-items:center}
+.slot .n{font:500 11px var(--mono);color:var(--text-3)}
+.slot svg.i{width:18px;height:18px;color:var(--text-2)}
+.slot b{font-size:15px;font-weight:600;letter-spacing:-.01em;display:block}
+.slot small{font-size:12px;color:var(--text-2)}
+.slot.on{background:var(--key-2);border-color:var(--acc)}
+.slot.on .n,.slot.on svg.i{color:var(--acc)}
+.go{margin:auto 22px 20px;height:48px;border-radius:8px;background:var(--acc);color:var(--acc-ink);display:flex;align-items:center;justify-content:center;gap:10px;font-weight:600;font-size:14px;flex:none}
+.go svg{stroke:var(--acc-ink);width:16px;height:16px;fill:none;stroke-width:2;stroke-linecap:round}
+.go kbd{font:500 11px var(--mono);opacity:.6;margin-left:6px}
+
+/* ===== library ===== */
+.s-library{grid-template-columns:210px 1fr 330px}
+.flist{padding:18px 0}
+.flist .lbl{padding:0 18px 8px;display:block}
+.flist a{display:flex;align-items:center;height:30px;padding:0 18px;color:var(--text-2);font-weight:500;position:relative}
+.flist a span{margin-left:auto;font:11px var(--mono);color:var(--text-3)}
+.flist a.on{color:var(--text);background:var(--panel-2)}
+.flist a.on::before{content:"";position:absolute;left:0;top:7px;bottom:7px;width:2px;background:var(--acc)}
+.flist + .flist{border-top:1px solid var(--line)}
+.toolbar{display:flex;align-items:center;gap:10px;padding:14px 28px;border-bottom:1px solid var(--line)}
+.toolbar .field{flex:1}
+.vcell b{font-weight:600;font-size:13px}
+.vcell small{color:var(--text-2);margin-left:8px;font-size:12px}
+.st-in{display:flex;align-items:center;gap:6px;color:var(--text-2);font-size:12px}
+.st-in svg{width:13px;height:13px;stroke:var(--text-2)}
+.getb{height:24px;padding:0 10px;font-size:11.5px}
+.pv-name{font-size:52px;line-height:.95;font-weight:600;letter-spacing:-.04em;margin:14px 0 6px}
+.kv{display:grid;grid-template-columns:1fr auto;row-gap:0;font-size:12.5px}
+.kv span,.kv b{padding:8px 0;border-bottom:1px solid var(--line)}
+.kv span{color:var(--text-2)}
+.kv b{font:500 12px var(--mono);text-align:right}
+.kv > :nth-last-child(-n+2){border-bottom:0}
+.quote{font-size:13px;line-height:1.55;color:var(--text-2);margin-top:12px}
+.play{display:flex;align-items:center;gap:12px;margin-top:14px}
+.pbtn{width:30px;height:30px;border-radius:50%;border:1px solid var(--line-3);display:grid;place-items:center;flex:none}
+.pbtn svg{width:11px;height:11px;fill:var(--text);stroke:none;margin-left:2px}
+.pbtn.acc{background:var(--acc);border-color:var(--acc)}
+.pbtn.acc svg{fill:var(--acc-ink)}
+
+/* ===== voice lab ===== */
+.s-voicelab{grid-template-columns:1fr 340px;position:relative}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--line)}
+.step{padding:14px 20px 14px 28px;border-right:1px solid var(--line);position:relative}
+.step:last-child{border-right:0}
+.step .n{font:500 11px var(--mono);color:var(--text-3);display:flex;align-items:center;gap:6px}
+.step .n svg{width:12px;height:12px;stroke:var(--text-2);stroke-width:2.2}
+.step b{display:block;font-size:14px;margin-top:6px}
+.step small{font:11px var(--mono);color:var(--text-3)}
+.step.done .n{color:var(--text-2)}
+.step.cur::before{content:"";position:absolute;left:0;right:0;top:-1px;height:2px;background:var(--acc)}
+.step.cur .n{color:var(--acc)}
+.readout{display:flex;align-items:flex-end;gap:40px;padding:22px 28px 18px}
+.big{font:500 84px/0.85 var(--mono);letter-spacing:-.05em}
+.big small{font-size:34px;color:var(--text-2);letter-spacing:0;margin-left:4px}
+.stats{display:grid;grid-template-columns:repeat(3,auto);gap:12px 36px;padding-bottom:4px}
+.stats .v{font:500 15px var(--mono);margin-top:4px;display:block}
+.progline{margin:0 28px}
+.chart{flex:1;min-height:0;padding:16px 28px 22px;position:relative}
+.chart svg{width:100%;height:100%;display:block;overflow:visible}
+.ds{display:flex;align-items:center;gap:10px;padding:8px 0;font-size:12.5px}
+.ds + .ds{border-top:1px solid var(--line)}
+.ds svg.i{color:var(--text-3);width:14px;height:14px}
+.ds span{flex:1;font:12px var(--mono);color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ds small{font:11px var(--mono);color:var(--text-3)}
+.ab{display:grid;grid-template-columns:30px 64px 1fr;align-items:center;gap:10px;padding:7px 0}
+.ab small{font-size:12px;color:var(--text-2)}
+.ab .lane{height:26px}
+.log{font:11px/1.9 var(--mono);color:var(--text-3);white-space:nowrap;overflow:hidden}
+.log b{color:var(--text-2);font-weight:500}
+.note{display:flex;gap:10px;color:var(--text-2);font-size:12px;line-height:1.5}
+.note svg.i{color:var(--text-2);margin-top:1px}
+.note b{color:var(--text);display:block;font-weight:600}
+.toast{left:50%;bottom:30px;transform:translateX(-50%);display:flex;align-items:center;gap:14px;padding:12px 14px 12px 16px;opacity:0;white-space:nowrap}
+.toast .ck{width:22px;height:22px;border-radius:50%;background:var(--acc);display:grid;place-items:center}
+.toast .ck svg{width:12px;height:12px;stroke:var(--acc-ink);stroke-width:3}
+.toast b{font-size:13px}
+.toast small{font:11px var(--mono);color:var(--text-2);margin-left:6px}
+
+/* ===== soundboard ===== */
+.s-soundboard{grid-template-columns:1fr 330px}
+.s-soundboard > .col:first-child{position:relative}
+.pads{flex:1;min-height:0;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(3,1fr);gap:8px;padding:20px 28px 24px;position:relative}
+.pad{background:var(--key);border:1px solid var(--line);border-radius:8px;padding:12px 14px 13px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.pad .top{display:flex;justify-content:space-between;align-items:center}
+.pad .n{font:500 11px var(--mono);color:var(--text-3)}
+.pad .lane{height:40px}
+.pad b{font-size:15px;font-weight:600;letter-spacing:-.01em;display:block}
+.pad .meta{display:flex;align-items:center;gap:8px;margin-top:2px}
+.pad .meta small{font:11px var(--mono);color:var(--text-2)}
+.pad .pg{position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--acc)}
+.pad.hit{background:var(--key-2);border-color:var(--acc)}
+.pad.hit .n{color:var(--acc)}
+.keycast{right:40px;bottom:36px;padding:14px 16px;display:flex;align-items:center;gap:14px;opacity:0;white-space:nowrap}
+.keycast .cap{font:600 16px var(--mono);padding:7px 12px;border:1px solid var(--line-3);border-bottom-width:3px;border-radius:6px;background:var(--bg)}
+.keycast small{display:block;font:500 10px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:3px}
+.keycast b{font-size:13px}
+.keycast b em{font-style:normal;color:var(--acc)}
+.bind{display:flex;align-items:center;gap:10px;padding:9px 0}
+.bind + .bind{border-top:1px solid var(--line)}
+.bind div{flex:1}
+.bind b{display:block;font-size:12.5px}
+.bind small{font-size:11.5px;color:var(--text-2)}
+
+/* ===== converter ===== */
+.s-converter{grid-template-columns:1fr 360px}
+.drop{margin:18px 28px 6px;border:1px dashed var(--line-3);border-radius:8px;padding:18px 20px;display:flex;align-items:center;gap:16px}
+.drop .ib{width:40px;height:40px;border-radius:8px;border:1px solid var(--line-2);display:grid;place-items:center;color:var(--text-2)}
+.drop .ib svg{width:18px;height:18px}
+.drop b{font-size:14px}
+.drop p{font:11.5px var(--mono);color:var(--text-3);margin-top:3px}
+.q .vc{display:flex;align-items:center;gap:8px}
+.q .pc{display:flex;align-items:center;gap:10px}
+.q .pc .bar{flex:1}
+.q .pc span{font:11px var(--mono);color:var(--text-2);width:34px;text-align:right}
+.q .fn b{font-weight:500;font-size:12.5px}
+.q .fn small{font:11px var(--mono);color:var(--text-3);margin-left:8px}
+.qfoot{display:flex;align-items:center;gap:8px;padding:14px 28px;margin-top:auto;border-top:1px solid var(--line)}
+.ta{border:1px solid var(--line-2);border-radius:8px;background:var(--panel);padding:14px;font-size:14px;line-height:1.6;height:210px;color:var(--text)}
+.ta .caret{display:inline-block;width:1.5px;height:16px;background:var(--acc);vertical-align:-3px;margin-left:1px}
+.ta-foot{display:flex;justify-content:space-between;font:11px var(--mono);color:var(--text-3);margin-top:8px}
+.vpick{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line-2);border-radius:8px}
+.vpick div{flex:1}
+.vpick b{display:block;font-size:13px}
+.vpick small{font:11px var(--mono);color:var(--text-2)}
+#emo span{flex:1;text-align:center}
+.gen{display:grid;grid-template-columns:30px 1fr auto;gap:12px;align-items:center}
+.gen .lane{height:34px}
+
+/* ===== settings ===== */
+.s-settings{grid-template-columns:200px 1fr 340px}
+.srow{display:flex;align-items:center;gap:20px;padding:0 28px;height:62px;border-bottom:1px solid var(--line)}
+.srow .t{flex:1;min-width:0}
+.srow .t b{display:block;font-size:13.5px}
+.srow .t small{font-size:12px;color:var(--text-2)}
+.budget{display:flex;height:12px;gap:2px;margin:16px 0 14px}
+.budget i{display:block;height:100%;border-radius:2px;background:#3a3a40}
+.budget i.a{background:var(--acc)}
+.budget i.w{background:#d9d9de}
+.leg{display:grid;grid-template-columns:10px 1fr auto;gap:10px;align-items:center;font-size:12.5px;padding:6px 0}
+.leg i{width:8px;height:8px;border-radius:2px;background:#3a3a40}
+.leg b{font:500 12px var(--mono)}
+.huge{font:500 60px/0.9 var(--mono);letter-spacing:-.05em}
+.huge small{font-size:22px;color:var(--text-2);letter-spacing:0;margin-left:6px}
+</style>
+</head>
+<body>
+<div class="win">
+  <div class="tb">
+    <div class="logo"><svg viewBox="0 0 24 24"><path d="M4 6v4M8 9v5M12 13v6M16 9v5M20 6v4"/></svg></div><span class="app">VoxShift</span>
+    <div class="route"><span>Shure MV7</span><span class="arr">→</span><b>VoxShift Virtual Mic</b><span class="arr">→</span><span>Discord, OBS</span></div>
+    <div class="ctl"><span><svg viewBox="0 0 10 10"><path d="M0 5h10"/></svg></span><span><svg viewBox="0 0 10 10"><rect x=".5" y=".5" width="9" height="9"/></svg></span><span><svg viewBox="0 0 10 10"><path d="M0 0l10 10M10 0L0 10"/></svg></span></div>
+  </div>
+  <div class="nav" id="nav">
+    <a data-s="live">Live</a><a data-s="library">Library <span class="count">254</span></a><a data-s="voicelab">Voice Lab</a><a data-s="soundboard">Soundboard</a><a data-s="converter">Convert &amp; TTS</a>
+    <span class="sp"></span><a data-s="settings"><i data-i="gear"></i>Settings</a>
+  </div>
+
+  <!-- ================= LIVE ================= -->
+  <section class="main scr s-live" id="s-live">
+    <div class="col br">
+      <div class="display">
+        <div class="d-head">
+          <span class="live"><i></i>LIVE</span>
+          <span class="lbl" id="slotlbl">Slot 01 · RVC v3 HD</span>
+          <span class="sp"></span>
+          <div class="seg"><span>Original</span><span class="on">AI voice</span><span>Blend 85%</span></div>
+        </div>
+        <div class="vname">
+          <h1 id="vn">Nova</h1>
+          <div class="meta"><span id="vd">Bright female · anime</span><br><b>48 kHz</b> · trained <span id="vt">2.1 h</span> · <b id="vlat">27 ms</b></div>
+        </div>
+        <div class="lanes">
+          <span class="lbl">In</span><div class="lane"><svg id="wIn" preserveAspectRatio="none"></svg></div>
+          <span class="lbl">Out</span><div class="lane"><svg id="wOut" preserveAspectRatio="none"></svg><div class="playhead"></div></div>
+        </div>
+      </div>
+      <div class="slots-h"><span class="lbl">Quick slots</span><span class="sp"></span><span class="kbd">Alt</span><span class="dim">+</span><span class="kbd">1–8</span></div>
+      <div class="slots" id="slots"></div>
+    </div>
+    <div class="col">
+      <div class="sec">
+        <div class="sec-h"><span class="lbl">Tuning</span><span class="lbl" style="color:var(--text-2)">Reset</span></div>
+        <div class="knobs" id="knobs"></div>
+      </div>
+      <div class="sec">
+        <div class="sec-h" style="margin-bottom:6px"><span class="lbl">Processing</span></div>
+        <div class="opt"><span>AI noise suppression</span><small>−38 dB</small><i class="sw on"></i></div>
+        <div class="opt"><span>Echo cancellation</span><small>auto</small><i class="sw on"></i></div>
+        <div class="opt"><span>Hear myself</span><small>off</small><i class="sw"></i></div>
+      </div>
+      <div class="sec nb">
+        <div class="sec-h" style="margin-bottom:6px"><span class="lbl">Levels</span></div>
+        <div class="meter"><span class="lbl">In</span><div class="leds" id="m1"></div><span class="db" id="db1">−14 dB</span></div>
+        <div class="meter"><span class="lbl">Out</span><div class="leds" id="m2"></div><span class="db" id="db2">−6 dB</span></div>
+      </div>
+      <div class="sec nb" style="padding-top:4px">
+        <div class="sec-h" style="margin-bottom:6px"><span class="lbl">Listening apps</span><span class="lbl">3</span></div>
+        <div class="app-row"><i class="sq">Dc</i><span>Discord</span><small class="on">voice channel</small></div>
+        <div class="app-row"><i class="sq">Ob</i><span>OBS Studio</span><small class="on">mic/aux</small></div>
+        <div class="app-row"><i class="sq">Va</i><span>Valorant</span><small>push-to-talk</small></div>
+      </div>
+      <div class="go"><svg viewBox="0 0 24 24"><path d="M12 2v10"/><path d="M18.4 6.6a9 9 0 1 1-12.8 0"/></svg>Voice is on<kbd>Alt+V</kbd></div>
+    </div>
+  </section>
+
+  <!-- ================= LIBRARY ================= -->
+  <section class="main scr s-library" id="s-library">
+    <div class="col br">
+      <div class="flist">
+        <span class="lbl">Category</span>
+        <a class="on">All voices<span>254</span></a><a>Anime<span>38</span></a><a>Gaming<span>41</span></a><a>Horror<span>22</span></a><a>Sci-fi &amp; robots<span>27</span></a><a>Narrators<span>19</span></a><a>Female<span>64</span></a><a>Male<span>58</span></a>
+      </div>
+      <div class="flist">
+        <span class="lbl">Engine</span>
+        <a>RVC v3 HD<span>112</span></a><a>RVC v3<span>96</span></a><a>Lite · CPU<span>46</span></a>
+      </div>
+      <div class="flist">
+        <span class="lbl">Source</span>
+        <a>Built-in<span>248</span></a><a>Imported<span>6</span></a><a>Voice Hub<span>3.2k</span></a>
+      </div>
+    </div>
+    <div class="col br">
+      <div class="toolbar">
+        <div class="field"><i data-i="search"></i><span class="caret"></span>Search voices, styles, games<span class="sp"></span><span class="kbd">Ctrl K</span></div>
+        <div class="seg"><span class="on">Popular</span><span>New</span><span>A–Z</span></div>
+      </div>
+      <div style="padding-top:14px;min-height:0;overflow:hidden">
+        <table class="tbl" id="libt">
+          <colgroup><col style="width:58px"><col><col style="width:96px"><col style="width:102px"><col style="width:62px"><col style="width:70px"><col style="width:104px"></colgroup>
+          <thead><tr><th>#</th><th>Voice</th><th>Category</th><th>Engine</th><th>Rating</th><th>Uses</th><th>Status</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col">
+      <div class="sec">
+        <div class="sec-h" style="margin:0"><span class="lbl">Preview</span><span class="lbl">09 / 254</span></div>
+        <div class="pv-name">Orion</div>
+        <div class="mono muted" style="font-size:12px">Calm storyteller · male · narrator</div>
+        <div class="play"><span class="pbtn acc"><svg viewBox="0 0 24 24"><path d="M6 3l14 9-14 9z"/></svg></span><div class="lane" style="flex:1;height:30px"><svg id="pvw" preserveAspectRatio="none"></svg></div><span class="mono dim" style="font-size:11px">0:07</span></div>
+        <p class="quote">“The road north was empty that winter, and the old maps no longer agreed with the hills.”</p>
+      </div>
+      <div class="sec">
+        <div class="kv">
+          <span>Engine</span><b>RVC v3 HD</b>
+          <span>Sample rate</span><b>48 kHz</b>
+          <span>Trained on</span><b>3.4 h</b>
+          <span>Download</span><b>55 MB</b>
+          <span>License</span><b>CC BY 4.0</b>
+          <span>Author</span><b>voxshift-team</b>
+        </div>
+      </div>
+      <div class="sec nb" style="display:flex;gap:8px">
+        <span class="btn pri" style="flex:1"><i data-i="download"></i>Install · 55 MB</span>
+        <span class="btn" style="flex:1">Assign to slot</span>
+      </div>
+      <div class="sec nb" style="margin-top:auto;border-top:1px solid var(--line)">
+        <div class="note"><i data-i="upload"></i><div><b>Import your own model</b>Drop any RVC .pth or .onnx file here</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= VOICE LAB ================= -->
+  <section class="main scr s-voicelab" id="s-voicelab">
+    <div class="col br" style="position:relative">
+      <div class="ph">
+        <div><h1>Voice Lab</h1><p>Clone a voice from ~10 min of audio · trained on this PC</p></div>
+        <span class="sp"></span>
+        <span class="btn"><i data-i="pause"></i>Pause</span>
+        <span class="btn" id="testbtn"><i data-i="play"></i>Test model</span>
+      </div>
+      <div class="steps">
+        <div class="step done"><span class="n">01 <i data-i="check"></i></span><b>Dataset</b><small>6 clips · 11:42</small></div>
+        <div class="step done"><span class="n">02 <i data-i="check"></i></span><b>Clean-up</b><small>noise −38 dB · silence cut</small></div>
+        <div class="step cur" id="st3"><span class="n" id="st3n">03</span><b>Train</b><small id="st3s">RVC v3 · 300 epochs</small></div>
+        <div class="step" id="st4"><span class="n">04</span><b>Use live</b><small>slot 09 · Alt+9</small></div>
+      </div>
+      <div class="readout">
+        <div><span class="lbl">Training “My Voice v2”</span><div class="big" style="margin-top:12px"><span id="pct">62</span><small>%</small></div></div>
+        <div class="stats">
+          <div><span class="lbl">Epoch</span><span class="v"><span id="ep">186</span><span class="dim"> / 300</span></span></div>
+          <div><span class="lbl">Loss</span><span class="v" id="loss">0.184</span></div>
+          <div><span class="lbl">Similarity</span><span class="v" id="sim">94.1%</span></div>
+          <div><span class="lbl">ETA</span><span class="v" id="eta">6:12</span></div>
+          <div><span class="lbl">GPU</span><span class="v">RTX 4070</span></div>
+          <div><span class="lbl">VRAM</span><span class="v">9.1 GB</span></div>
+        </div>
+      </div>
+      <div class="progline"><div class="bar acc"><i id="prog" style="width:62%"></i></div></div>
+      <div class="chart"><svg id="chart"></svg></div>
+      <div class="ov toast" id="toast"><span class="ck"><i data-i="check"></i></span><b>My Voice v2 is ready<small>similarity 96.6%</small></b><span class="kbd">Use live · Alt+9</span></div>
+    </div>
+    <div class="col">
+      <div class="sec">
+        <div class="sec-h"><span class="lbl">Dataset · 6 clips</span><span class="lbl">11:42</span></div>
+        <div class="ds"><i data-i="file"></i><span>reading_01.wav</span><small>03:12</small></div>
+        <div class="ds"><i data-i="file"></i><span>stream_clip.mp4</span><small>04:05</small></div>
+        <div class="ds"><i data-i="file"></i><span>podcast_ep3.mp3</span><small>02:48</small></div>
+        <div class="ds"><i data-i="mic"></i><span>recorded_in_app.wav</span><small>01:37</small></div>
+        <div class="ds"><i data-i="plus"></i><span style="color:var(--text-2);font-family:var(--sans)">Add files or record</span></div>
+      </div>
+      <div class="sec">
+        <div class="sec-h" style="margin-bottom:6px"><span class="lbl">A/B preview</span><span class="lbl">same sentence</span></div>
+        <div class="ab"><span class="pbtn"><svg viewBox="0 0 24 24"><path d="M6 3l14 9-14 9z"/></svg></span><small>Original</small><div class="lane"><svg id="abA" preserveAspectRatio="none"></svg></div></div>
+        <div class="ab"><span class="pbtn acc"><svg viewBox="0 0 24 24"><path d="M6 3l14 9-14 9z"/></svg></span><small style="color:var(--text)">My Voice</small><div class="lane"><svg id="abB" preserveAspectRatio="none"></svg></div></div>
+      </div>
+      <div class="sec" style="display:flex;gap:8px">
+        <span class="btn" style="flex:1"><i data-i="download"></i>Export .pth</span>
+        <span class="btn" style="flex:1"><i data-i="download"></i>Export .onnx</span>
+      </div>
+      <div class="sec nb">
+        <div class="sec-h" style="margin-bottom:10px"><span class="lbl">Log</span><span class="lbl">tail</span></div>
+        <div class="log" id="log"></div>
+      </div>
+      <div class="sec nb" style="margin-top:auto;border-top:1px solid var(--line)">
+        <div class="note"><i data-i="lock"></i><div><b>Your voice stays on this PC</b>Nothing is uploaded. No account.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SOUNDBOARD ================= -->
+  <section class="main scr s-soundboard" id="s-soundboard">
+    <div class="col br">
+      <div class="ph">
+        <div><h1>Soundboard</h1><p>Global hotkeys · work in exclusive full-screen games</p></div>
+        <span class="sp"></span>
+        <span class="btn"><i data-i="plus"></i>Add sound</span>
+        <span class="btn"><i data-i="keyboard"></i>Hotkeys</span>
+      </div>
+      <div class="pads" id="pads"></div>
+      <div class="ov keycast" id="keycast"><span class="cap" id="kck">Ctrl + 1</span><div><small>Global hotkey · in-game</small><b id="kct">Airhorn → Discord</b></div></div>
+    </div>
+    <div class="col">
+      <div class="sec">
+        <div class="sec-h" style="margin-bottom:6px"><span class="lbl">Output</span></div>
+        <div class="opt"><span>To virtual mic</span><small>Discord, OBS</small><i class="sw on"></i></div>
+        <div class="opt"><span>To my headphones</span><small>monitor</small><i class="sw on"></i></div>
+        <div class="opt"><span>Duck my voice while playing</span><small>−12 dB</small><i class="sw"></i></div>
+      </div>
+      <div class="sec">
+        <div class="sec-h" style="margin-bottom:6px"><span class="lbl">Levels</span></div>
+        <div class="meter"><span class="lbl">Sfx</span><div class="leds" id="sm1"></div><span class="db" id="sdb">−9 dB</span></div>
+        <div class="meter"><span class="lbl">Vol</span><div class="leds" id="sm2"></div><span class="db">70%</span></div>
+      </div>
+      <div class="sec">
+        <div class="sec-h" style="margin-bottom:4px"><span class="lbl">Voice on key</span><span class="lbl">2</span></div>
+        <div class="bind"><i class="sq">Ti</i><div><b>Titan · deep, distorted</b><small>Hold to talk, release to go back</small></div><span class="kbd">Mouse 4</span></div>
+        <div class="bind"><i class="sq">U7</i><div><b>Unit-7 · vocoder robot</b><small>Toggle on / off</small></div><span class="kbd">F8</span></div>
+      </div>
+      <div class="sec nb" style="margin-top:auto;border-top:1px solid var(--line)">
+        <div class="sec-h" style="margin-bottom:8px"><span class="lbl">Now playing</span></div>
+        <div style="display:flex;align-items:baseline;gap:10px"><b style="font-size:22px;letter-spacing:-.02em" id="npn">Airhorn</b><span class="sp"></span><span class="mono muted" style="font-size:12px" id="npt">0:01 / 0:02</span></div>
+        <div class="bar acc" style="margin-top:12px"><i id="npb" style="width:40%"></i></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONVERTER ================= -->
+  <section class="main scr s-converter" id="s-converter">
+    <div class="col br">
+      <div class="ph">
+        <div><h1>Convert &amp; TTS</h1><p>Replace the voice in audio and video files · keeps the video stream</p></div>
+      </div>
+      <div class="drop"><span class="ib"><i data-i="upload"></i></span><div><b>Drop audio or video files</b><p>MP3 · WAV · FLAC · OGG · MP4 · MKV · MOV</p></div><span class="sp"></span><span class="btn">Browse</span></div>
+      <div style="padding-top:12px">
+        <table class="tbl q">
+          <colgroup><col style="width:86px"><col><col style="width:112px"><col style="width:170px"><col style="width:96px"></colgroup>
+          <thead><tr><th>Type</th><th>File</th><th>Voice</th><th>Progress</th><th>Speed</th></tr></thead>
+          <tbody id="qt"></tbody>
+        </table>
+      </div>
+      <div class="qfoot"><span class="tag">Keep video stream</span><span class="tag">WAV 48 kHz</span><span class="tag">MP3 320</span><span class="sp"></span><span class="mono dim" style="font-size:11px;margin-right:8px">8 files · 32:39 total</span><span class="btn pri"><i data-i="zap"></i>Convert all</span></div>
+    </div>
+    <div class="col">
+      <div class="sec nb">
+        <div class="sec-h"><span class="lbl">Text to speech</span><span class="lbl">any voice</span></div>
+        <div class="ta">Welcome back, adventurers. Tonight the dungeon opens its gates, and only one of you will make it out<span class="caret"></span></div>
+        <div class="ta-foot"><span>104 / 5000</span><span>en-US · auto</span></div>
+      </div>
+      <div class="sec nb" style="padding-top:2px">
+        <div class="sec-h" style="margin-bottom:8px"><span class="lbl">Emotion</span></div>
+        <div class="seg" style="display:flex" id="emo"><span>Neutral</span><span class="on">Dramatic</span><span>Whisper</span><span>Excited</span></div>
+      </div>
+      <div class="sec nb" style="padding-top:2px">
+        <div class="vpick"><i class="sq">At</i><div><b>Atlas</b><small>trailer narrator · slot 05</small></div><i data-i="chev"></i></div>
+        <div class="opt" style="margin-top:6px"><span>Speed</span><small>0.95×</small></div>
+        <div class="opt"><span>Pitch</span><small>−4 st</small></div>
+      </div>
+      <div class="sec nb" style="border-top:1px solid var(--line)">
+        <div class="gen"><span class="pbtn acc"><svg viewBox="0 0 24 24"><path d="M6 3l14 9-14 9z"/></svg></span><div class="lane"><svg id="ttsw" preserveAspectRatio="none"></svg></div><span class="mono dim" style="font-size:11px">0:07</span></div>
+      </div>
+      <div class="sec nb" style="display:flex;gap:8px;margin-top:auto">
+        <span class="btn" style="flex:1"><i data-i="play"></i>Preview</span>
+        <span class="btn pri" style="flex:1.4"><i data-i="download"></i>Generate WAV</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SETTINGS ================= -->
+  <section class="main scr s-settings" id="s-settings">
+    <div class="col br">
+      <div class="flist">
+        <span class="lbl">Settings</span>
+        <a class="on">Audio engine</a><a>Performance</a><a>Hotkeys</a><a>Virtual mic</a><a>Privacy</a><a>Appearance</a><a>Updates</a>
+      </div>
+    </div>
+    <div class="col br">
+      <div class="ph"><div><h1>Audio engine</h1><p>Lower buffer = less delay · current chain 27 ms</p></div></div>
+      <div class="srow"><div class="t"><b>Audio driver</b><small>WASAPI exclusive gives the lowest latency on Windows</small></div><div class="seg"><span>MME</span><span class="on">WASAPI</span><span>ASIO</span></div></div>
+      <div class="srow"><div class="t"><b>Sample rate</b><small>Match your microphone to avoid resampling</small></div><span class="sel">48 000 Hz<i data-i="chev"></i></span></div>
+      <div class="srow"><div class="t"><b>Buffer size</b><small>Smaller is faster, larger is more stable</small></div><span class="sel">256 samples · 5.3 ms<i data-i="chev"></i></span></div>
+      <div class="srow"><div class="t"><b>Inference device</b><small>CUDA, DirectML (AMD / Intel), Metal or CPU</small></div><span class="sel">RTX 4070 · CUDA<i data-i="chev"></i></span></div>
+      <div class="srow"><div class="t"><b>Low-CPU mode</b><small>Lightweight models for laptops · under 10% CPU</small></div><i class="sw"></i></div>
+      <div class="srow"><div class="t"><b>Offline mode</b><small>Never connect to the internet. No telemetry.</small></div><i class="sw on"></i></div>
+      <div class="srow"><div class="t"><b>Virtual microphone driver</b><small>VoxShift Virtual Mic v2.1 · signed · visible to every app</small></div><span class="tag ok">Installed</span><span class="btn">Reinstall</span></div>
+      <div class="srow"><div class="t"><b>Toggle voice hotkey</b><small>Works in exclusive full-screen games</small></div><span class="kbd" style="font-size:12px;padding:4px 8px">Alt + V</span></div>
+      <div class="srow" style="border-bottom:0"><div class="t"><b>Update channel</b><small>Updates are signed and verified · 1.0.0 is the latest</small></div><div class="seg"><span class="on">Stable</span><span>Beta</span><span>Off</span></div></div>
+    </div>
+    <div class="col">
+      <div class="sec">
+        <div class="sec-h" style="margin-bottom:12px"><span class="lbl">Latency budget</span><span class="lbl">end-to-end</span></div>
+        <div class="huge">27<small>ms</small></div>
+        <div class="budget"><i class="w" style="flex:4"></i><i style="flex:3"></i><i class="a" style="flex:14"></i><i style="flex:5"></i><i style="flex:1"></i></div>
+        <div class="leg"><i style="background:#d9d9de"></i><span>Capture</span><b>4 ms</b></div>
+        <div class="leg"><i></i><span>Noise AI</span><b>3 ms</b></div>
+        <div class="leg"><i style="background:var(--acc)"></i><span>Inference · RVC v3 HD</span><b>14 ms</b></div>
+        <div class="leg"><i></i><span>Buffer · 256</span><b>5 ms</b></div>
+        <div class="leg"><i></i><span>Output</span><b>1 ms</b></div>
+      </div>
+      <div class="sec">
+        <div class="sec-h" style="margin-bottom:4px"><span class="lbl">Benchmark</span><span class="lbl">today 14:02</span></div>
+        <div class="kv">
+          <span>GPU load</span><b>23%</b>
+          <span>Realtime factor</span><b>0.41×</b>
+          <span>HD voices at once</span><b>3</b>
+          <span>CPU fallback</span><b>48 ms</b>
+        </div>
+      </div>
+      <div class="sec"><span class="btn" style="width:100%"><i data-i="refresh"></i>Run benchmark again</span></div>
+      <div class="sec nb">
+        <div class="sec-h" style="margin-bottom:4px"><span class="lbl">Privacy</span></div>
+        <div class="kv"><span>Telemetry</span><b>off</b><span>Network calls this session</span><b>0</b></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="status">
+    <span class="ok"><i></i>Engine ready</span>
+    <span>GPU <b>RTX 4070 · 23%</b></span><span>CPU <b>7%</b></span><span>Latency <b>27 ms</b></span><span>Buffer <b>256</b></span>
+    <span class="sp"></span><span>Offline · no account</span><span>v1.0.0</span>
+  </div>
+</div>
+
+<script>
+/* ---------- icons ---------- */
+const I = {
+  gear:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
+  mic:'<path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/>',
+  search:'<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
+  upload:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/>',
+  download:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/>',
+  play:'<path d="M6 3l14 9-14 9z"/>',
+  pause:'<path d="M8 4v16M16 4v16"/>',
+  check:'<path d="M20 6 9 17l-5-5"/>',
+  chev:'<path d="m6 9 6 6 6-6"/>',
+  lock:'<rect width="16" height="11" x="4" y="11" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
+  plus:'<path d="M5 12h14M12 5v14"/>',
+  file:'<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/>',
+  keyboard:'<rect width="20" height="14" x="2" y="5" rx="2"/><path d="M6 9h.01M10 9h.01M14 9h.01M18 9h.01M7 15h10"/>',
+  zap:'<path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/>',
+  refresh:'<path d="M3 12a9 9 0 0 1 15.5-6.2L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 21v-5h5"/>',
+  star:'<path d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z"/>',
+  flame:'<path d="M12 3c1 3.5 5 5.5 5 10a5 5 0 0 1-10 0c0-2.6 1.6-4 2.4-5.4C10 9.5 11 10 11 11.5 12.5 10 12.3 6 12 3z"/>',
+  cpu:'<rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/>',
+  ghost:'<path d="M6 20V10a6 6 0 0 1 12 0v10l-2-1.5L14 20l-2-1.5L10 20l-2-1.5z"/><path d="M10 10h.01M14 10h.01"/>',
+  film:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 4v16M17 4v16M3 9h4M17 9h4M3 15h4M17 15h4"/>',
+  wind:'<path d="M3 8h11a3 3 0 1 0-3-3M3 12h16a3 3 0 1 1-3 3M3 16h7"/>',
+  radio:'<circle cx="12" cy="12" r="2"/><path d="M16.2 7.8a6 6 0 0 1 0 8.4M7.8 16.2a6 6 0 0 1 0-8.4M19 5a10 10 0 0 1 0 14M5 19A10 10 0 0 1 5 5"/>',
+  mountain:'<path d="M3 20l6-11 4 7 2-3 6 7z"/>'
+};
+const ico = n => `<svg class="i" viewBox="0 0 24 24">${I[n]}</svg>`;
+document.querySelectorAll('i[data-i]').forEach(el => { el.outerHTML = ico(el.dataset.i); });
+
+/* ---------- helpers ---------- */
+const TAU = Math.PI * 2, clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const ease = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const frac = x => x - Math.floor(x);
+// speech-like amplitude, periodic in j with period P (so scrolling loops seamlessly)
+function amp(j, seed, P = 140) {
+  const u = j / P;
+  let a = Math.abs(Math.sin(TAU * 4 * u + seed) * .55 + Math.sin(TAU * 11 * u + seed * 2) * .3 + Math.sin(TAU * u + seed) * .35 + Math.sin(TAU * 23 * u) * .08);
+  const f = frac(u * 2 + seed * .07);
+  if (f > .44 && f < .5) a *= .06;          // pause between phrases
+  return clamp(a, .04, 1);
+}
+// draw bar list into an svg
+function bars(svg, vals, colorAt, H = 46) {
+  const W = 1000, n = vals.length, bw = W / n;
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  let s = '';
+  for (let i = 0; i < n; i++) {
+    const h = Math.max(1.5, vals[i] * H * .92);
+    s += `<rect x="${(i * bw + bw * .2).toFixed(1)}" y="${((H - h) / 2).toFixed(1)}" width="${(bw * .55).toFixed(1)}" height="${h.toFixed(1)}" rx="1" fill="${colorAt(i, n)}"/>`;
+  }
+  svg.innerHTML = s;
+}
+const staticWave = (id, n, seed, color, accTail = 0) => bars(document.getElementById(id), Array.from({ length: n }, (_, i) => amp(i, seed, n)), (i, n) => i >= n - accTail ? '#ff5b1f' : color);
+function leds(id, lit, n = 28, hot = 22) { document.getElementById(id).innerHTML = Array.from({ length: n }, (_, i) => `<i class="${i < lit ? (i >= hot ? 'p' : 'l') : ''}"></i>`).join(''); }
+function knob(val, label, readout) {
+  const r = 28, c = 37, a0 = 135, sweep = 270;
+  const pt = d => { const t = d * Math.PI / 180; return [c + r * Math.cos(t), c + r * Math.sin(t)]; };
+  const arc = (f, to) => { const [x1, y1] = pt(f), [x2, y2] = pt(to); return `M${x1.toFixed(2)} ${y1.toFixed(2)} A${r} ${r} 0 ${to - f > 180 ? 1 : 0} 1 ${x2.toFixed(2)} ${y2.toFixed(2)}`; };
+  const end = a0 + sweep * Math.max(.001, val), [px, py] = pt(end);
+  return `<div class="knob"><svg viewBox="0 0 74 74"><path d="${arc(a0, a0 + sweep)}" stroke="#26262b" stroke-width="3" fill="none" stroke-linecap="round"/><path d="${arc(a0, end)}" stroke="#ff5b1f" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="37" cy="37" r="19" fill="#18181b" stroke="#2c2c31"/><line x1="${(c + (px - c) * .45).toFixed(2)}" y1="${(c + (py - c) * .45).toFixed(2)}" x2="${(c + (px - c) * .62).toFixed(2)}" y2="${(c + (py - c) * .62).toFixed(2)}" stroke="#ececee" stroke-width="2" stroke-linecap="round"/></svg><div class="v">${readout}</div><div class="k">${label}</div></div>`;
+}
+
+/* ---------- data ---------- */
+const V = [
+  { n:'Nova',   d:'Bright female · anime',    ic:'star',     s:'Bright female',   tr:'2.1 h', k:[[.68,'+5 st'],[.58,'+2.0'],[.14,'12%']] },
+  { n:'Titan',  d:'Deep, distorted · horror', ic:'flame',    s:'Deep, distorted', tr:'1.8 h', k:[[.22,'−7 st'],[.30,'−1.8'],[.32,'24%']] },
+  { n:'Unit-7', d:'Vocoder robot · sci-fi',   ic:'cpu',      s:'Vocoder robot',   tr:'0.9 h', k:[[.50,'±0 st'],[.50,'0.0'],[.20,'18%']] },
+  { n:'Echo',   d:'Airy whisper · ghost',     ic:'ghost',    s:'Airy whisper',    tr:'1.2 h', k:[[.58,'+2 st'],[.64,'+1.2'],[.55,'41%']] },
+  { n:'Atlas',  d:'Trailer narrator',         ic:'film',     s:'Trailer narrator',tr:'3.0 h', k:[[.36,'−4 st'],[.42,'−0.8'],[.22,'20%']] },
+  { n:'Pixie',  d:'Pitched up',               ic:'wind',     s:'Pitched up',      tr:'0.6 h', k:[[.9,'+9 st'],[.8,'+3.1'],[.1,'8%']] },
+  { n:'Vera',   d:'Radio host',               ic:'radio',    s:'Radio host',      tr:'2.4 h', k:[[.6,'+3 st'],[.55,'+0.6'],[.1,'6%']] },
+  { n:'Kaiju',  d:'Monster',                  ic:'mountain', s:'Monster',         tr:'1.5 h', k:[[.12,'−9 st'],[.2,'−2.6'],[.4,'30%']] },
+];
+document.getElementById('slots').innerHTML = V.map((v, i) => `<div class="slot" data-v="${i}"><div class="top"><span class="n">0${i + 1}</span>${ico(v.ic)}</div><div><b>${v.n}</b><small>${v.s}</small></div></div>`).join('');
+
+/* library */
+const LIB = [
+  ['Nova','Bright female','Anime','RVC v3 HD','4.9','412k',1],['Titan','Deep, distorted','Horror','RVC v3 HD','4.8','298k',1],
+  ['Unit-7','Vocoder robot','Sci-fi','RVC v3','4.8','251k',1],['Echo','Airy whisper','Horror','RVC v3','4.7','176k',1],
+  ['Atlas','Trailer narrator','Narrator','RVC v3 HD','4.9','233k',1],['Pixie','Pitched up','Funny','Lite · CPU','4.6','144k',1],
+  ['Vera','Radio host','Female','RVC v3 HD','4.8','189k',1],['Kaiju','Monster','Gaming','RVC v3','4.7','121k',1],
+  ['Orion','Calm storyteller','Narrator','RVC v3 HD','4.9','167k',0],['Luna','Soft ASMR','Female','RVC v3','4.8','138k',0],
+  ['Glitch','Cyber glitch','Sci-fi','Lite · CPU','4.6','97k',0],['Bastion','Space marine','Gaming','RVC v3','4.7','109k',0],
+];
+document.querySelector('#libt tbody').innerHTML = LIB.map((r, i) => `<tr class="${i === 8 ? 'on' : ''}"><td class="m">${String(i + 1).padStart(2, '0')}</td><td class="vcell"><b>${r[0]}</b><small>${r[1]}</small></td><td>${r[2]}</td><td class="m">${r[3]}</td><td class="m">${r[4]}</td><td class="m">${r[5]}</td><td>${r[6] ? `<span class="st-in">${ico('check')}Installed</span>` : `<span class="btn getb">Get</span>`}</td></tr>`).join('');
+staticWave('pvw', 60, 4.1, '#d9d9de');
+
+/* voice lab */
+staticWave('abA', 54, 2.2, '#3a3a40');
+staticWave('abB', 54, 2.5, '#d9d9de', 6);
+
+/* soundboard */
+const PADS = [
+  ['Airhorn','Ctrl+1','0:02'],['Bruh','Ctrl+2','0:01'],['Drumroll','Ctrl+3','0:04'],['Spooky laugh','Ctrl+4','0:03'],
+  ['Victory','Ctrl+5','0:05'],['Explosion','Ctrl+6','0:02'],['Lo-fi loop','Ctrl+7','0:30'],['Titan','Mouse 4','hold','voice'],
+  ['Sad violin','Ctrl+8','0:06'],['Notification','Ctrl+9','0:01'],['Crowd cheer','Ctrl+0','0:04'],['Unit-7','F8','toggle','voice'],
+];
+document.getElementById('pads').innerHTML = PADS.map((p, i) => `<div class="pad" data-p="${i}"><div class="top"><span class="n">${String(i + 1).padStart(2, '0')}</span><span class="kbd">${p[1]}</span></div><div class="lane"><svg preserveAspectRatio="none"></svg></div><div><b>${p[0]}</b><div class="meta">${p[3] ? `<span class="tag">Voice</span><small>${p[2]}</small>` : `<small>${p[2]}</small>`}</div></div><i class="pg"></i></div>`).join('');
+function padWave(i, prog) {
+  const svg = document.querySelector(`.pad[data-p="${i}"] svg`), n = 36;
+  bars(svg, Array.from({ length: n }, (_, k) => amp(k + i * 17, i * 1.3 + .4, n)), (k, n) => prog >= 0 && k / n < prog ? '#d9d9de' : '#2e2e34', 40);
+}
+PADS.forEach((_, i) => padWave(i, -1));
+leds('sm2', 19, 28, 99);
+
+/* converter */
+const Q = [
+  ['MP4','youtube_short_final.mp4','00:58 · 1080p','Nova',100,'Done'],
+  ['WAV','podcast_intro.wav','02:14 · 48 kHz','Atlas',72,'4.1× rt'],
+  ['MP3','dnd_villain_lines.mp3','05:31 · 320k','Titan',0,'queued'],
+  ['MKV','vtuber_clip_04.mkv','01:47 · 1440p','Unit-7',0,'queued'],
+  ['MOV','tiktok_skit_take2.mov','00:34 · 4K','Pixie',0,'queued'],
+  ['FLAC','audiobook_ch07.flac','18:02 · 96 kHz','Orion',0,'queued'],
+  ['MP4','stream_highlights_09.mp4','03:12 · 1080p','Kaiju',0,'queued'],
+  ['WAV','voicemail_greeting.wav','00:21 · 44.1 kHz','Vera',0,'queued'],
+];
+document.getElementById('qt').innerHTML = Q.map(r => `<tr><td><span class="tag">${r[0]}</span></td><td class="fn"><b>${r[1]}</b><small>${r[2]}</small></td><td><span class="vc"><i class="sq">${r[3].slice(0, 2)}</i>${r[3]}</span></td><td><span class="pc"><span class="bar${r[4] < 100 ? ' acc' : ''}"><i style="width:${r[4]}%"></i></span><span>${r[4] ? r[4] + '%' : '—'}</span></span></td><td class="m">${r[5] === 'Done' ? '<span style="color:var(--text)">done</span>' : r[5]}</td></tr>`).join('');
+staticWave('ttsw', 58, 5.2, '#d9d9de', 5);
+
+/* ---------- routing ---------- */
+const params = new URLSearchParams(location.hash.slice(1));
+const SCREEN = params.get('screen') || 'live';
+document.getElementById('s-' + SCREEN).classList.add('on');
+document.querySelectorAll('#nav a').forEach(a => a.classList.toggle('on', a.dataset.s === SCREEN));
+const CYCLE = params.get('cycle') !== '0';
+
+/* ---------- live ---------- */
+let curV = -1;
+function setVoice(vi) {
+  if (vi === curV) return; curV = vi;
+  const v = V[vi];
+  document.getElementById('vn').textContent = v.n;
+  document.getElementById('vd').textContent = v.d;
+  document.getElementById('vt').textContent = v.tr;
+  document.getElementById('slotlbl').textContent = `Slot 0${vi + 1} · RVC v3 HD`;
+  document.getElementById('knobs').innerHTML = knob(v.k[0][0], 'Pitch', v.k[0][1]) + knob(v.k[1][0], 'Formant', v.k[1][1]) + knob(v.k[2][0], 'Reverb', v.k[2][1]);
+  document.querySelectorAll('.slot').forEach(el => el.classList.toggle('on', +el.dataset.v === vi));
+}
+function shape(a, vi, j) {
+  if (vi === 1) return clamp(a * 1.05 + .18 * Math.abs(Math.sin(j * 1.9)));     // dense, loud
+  if (vi === 2) return Math.max(.04, Math.round(a * 4) / 4);                         // quantized
+  if (vi === 3) return a * (.45 + .2 * Math.abs(Math.sin(j * .7)));                  // airy, quiet
+  return a;
+}
+function liveAt(t, dur) {
+  const vi = CYCLE ? Math.floor(t / (dur / 4)) % 4 : 0;
+  setVoice(vi);
+  const N = 140, off = Math.floor(t / dur * N * 2);
+  const vin = [], vout = [];
+  for (let i = 0; i < N; i++) { const j = i + off; vin.push(amp(j, 1.3) * .75); vout.push(shape(amp(j - 2, 1.3), vi, j)); }
+  bars(document.getElementById('wIn'), vin, () => '#3a3a40');
+  bars(document.getElementById('wOut'), vout, (i, n) => i > n - 9 ? '#ff5b1f' : '#d9d9de');
+  const eIn = vin.slice(-6).reduce((a, b) => a + b) / 6, eOut = vout.slice(-6).reduce((a, b) => a + b) / 6;
+  const l1 = Math.round(6 + eIn * 16), l2 = Math.round(8 + eOut * 17);
+  leds('m1', l1); leds('m2', l2);
+  document.getElementById('db1').textContent = `−${Math.round(30 - l1)} dB`;
+  document.getElementById('db2').textContent = `−${Math.max(2, Math.round(29 - l2))} dB`;
+  document.getElementById('vlat').textContent = (27 + Math.round(Math.sin(TAU * t / dur * 3))) + ' ms';
+}
+
+/* ---------- voice lab ---------- */
+const chart = document.getElementById('chart');
+function labAt(t, dur) {
+  const p = clamp(t / (dur * .72)), pe = ease(p), done = t >= dur * .72;
+  const frac0 = .08 + pe * .92;
+  const pct = Math.round(frac0 * 100);
+  document.getElementById('pct').textContent = pct;
+  document.getElementById('ep').textContent = Math.round(frac0 * 300);
+  document.getElementById('prog').style.width = pct + '%';
+  document.getElementById('loss').textContent = (0.92 * Math.exp(-3.2 * frac0) + 0.05).toFixed(3);
+  document.getElementById('sim').textContent = (71 + pe * 25.6).toFixed(1) + '%';
+  const s = Math.round((1 - pe) * 640);
+  document.getElementById('eta').textContent = done ? 'done' : Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
+  // chart
+  const W = chart.clientWidth, H = chart.clientHeight, L = 40, B = 22, T = 30;
+  chart.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  const X = x => L + x * (W - L), Y = v => T + (1 - v) * (H - T - B);
+  let g = '';
+  [0, .25, .5, .75, 1].forEach(v => { g += `<line x1="${L}" x2="${W}" y1="${Y(v)}" y2="${Y(v)}" stroke="#1c1c1f"/><text x="0" y="${Y(v) + 4}" fill="#56565e" font-family="JetBrains Mono" font-size="10.5">${Math.round(v * 100)}%</text>`; });
+  [0, 100, 200, 300].forEach(e => { g += `<text x="${X(e / 300)}" y="${H - 4}" fill="#56565e" font-family="JetBrains Mono" font-size="10.5" text-anchor="${e === 0 ? 'start' : e === 300 ? 'end' : 'middle'}">ep ${e}</text>`; });
+  const N = 150, upto = Math.max(2, Math.round(frac0 * N));
+  let d = '', dl = '';
+  for (let i = 0; i <= upto; i++) {
+    const x = i / N;
+    const sim = 1 - .78 * Math.exp(-3.6 * x) - .018 * Math.sin(i * .21) * Math.exp(-2 * x);
+    const ls = .92 * Math.exp(-3.2 * x) + .05 + .015 * Math.sin(i * .33) * Math.exp(-2 * x);
+    d += (i ? 'L' : 'M') + X(x).toFixed(1) + ' ' + Y(sim).toFixed(1);
+    dl += (i ? 'L' : 'M') + X(x).toFixed(1) + ' ' + Y(ls).toFixed(1);
+  }
+  const m = d.match(/([\d.]+) ([\d.]+)$/);
+  g += `<path d="${dl}" fill="none" stroke="#56565e" stroke-width="1.5" stroke-dasharray="3 4"/>`;
+  g += `<path d="${d}" fill="none" stroke="#ff5b1f" stroke-width="2"/>`;
+  g += `<line x1="${m[1]}" x2="${m[1]}" y1="${T}" y2="${H - B}" stroke="#2c2c31"/>`;
+  g += `<circle cx="${m[1]}" cy="${m[2]}" r="4" fill="#0b0b0c" stroke="#ff5b1f" stroke-width="2"/>`;
+  g += `<text x="${W}" y="11" text-anchor="end" font-family="JetBrains Mono" font-size="11" fill="#8c8c94"><tspan fill="#ff5b1f">—</tspan> similarity   <tspan fill="#56565e">- -</tspan> loss</text>`;
+  chart.innerHTML = g;
+  const lg = []; const ep = Math.round(frac0 * 300);
+  for (let k = 3; k >= 0; k--) { const e = Math.max(1, ep - k * 6), x = e / 300; const tm = 14 * 3600 + 2 * 60 + Math.round(x * 640);
+    lg.push(`${String(Math.floor(tm / 3600)).padStart(2, '0')}:${String(Math.floor(tm / 60) % 60).padStart(2, '0')}:${String(tm % 60).padStart(2, '0')}  <b>ep ${String(e).padStart(3, ' ')}</b>  loss ${(0.92 * Math.exp(-3.2 * x) + 0.05).toFixed(3)}`); }
+  if (done) lg.push('<span style="color:var(--acc)">model saved · my_voice_v2.pth</span>'); 
+  document.getElementById('log').innerHTML = lg.join('<br>');
+  // steps + toast
+  const st3 = document.getElementById('st3');
+  st3.classList.toggle('cur', !done); st3.classList.toggle('done', done);
+  document.getElementById('st4').classList.toggle('cur', done);
+  document.getElementById('st3n').innerHTML = done ? '03 ' + ico('check') : '03';
+  document.getElementById('st3s').textContent = done ? 'done · 96.6% similar' : 'RVC v3 · 300 epochs';
+  const tb = document.getElementById('testbtn'); tb.classList.toggle('pri', done);
+  const tp = clamp((t - dur * .74) / 300), toast = document.getElementById('toast');
+  toast.style.opacity = tp; toast.style.transform = `translateX(-50%) translateY(${((1 - tp) * 10).toFixed(1)}px)`;
+}
+
+/* ---------- soundboard ---------- */
+const SEQ = [0, 3, 7, 5, 1, 6];
+function sbAt(t, dur) {
+  const slot = dur / SEQ.length, k = Math.floor(t / slot) % SEQ.length, local = (t % slot) / slot, pi = SEQ[k], P = PADS[pi];
+  document.querySelectorAll('.pad').forEach(el => { el.classList.remove('hit'); el.querySelector('.pg').style.width = '0'; el.style.transform = ''; });
+  const pad = document.querySelector(`.pad[data-p="${pi}"]`);
+  pad.classList.add('hit');
+  const prog = ease(clamp(local / .92));
+  pad.querySelector('.pg').style.width = (prog * 100).toFixed(1) + '%';
+  pad.style.transform = `scale(${(local < .06 ? 1 - local * .5 : .97 + Math.min(1, (local - .06) * 6) * .03).toFixed(3)})`;
+  PADS.forEach((_, i) => padWave(i, i === pi ? prog : -1));
+  const isV = !!P[3];
+  document.getElementById('kck').textContent = P[1].replace('+', ' + ');
+  document.getElementById('kct').innerHTML = isV ? `Voice → <em>${P[0]}</em>` : `<em>${P[0]}</em> → Discord`;
+  const o = local < .1 ? local / .1 : local > .86 ? (1 - local) / .14 : 1;
+  const kc = document.getElementById('keycast'); kc.style.opacity = o.toFixed(2); kc.style.transform = `translateY(${((1 - o) * 8).toFixed(1)}px)`;
+  document.getElementById('npn').textContent = isV ? P[0] + ' (voice)' : P[0];
+  const len = isV ? 1 : parseInt(P[2].split(':')[1]) || 1;
+  document.getElementById('npt').textContent = isV ? 'hold · live' : `0:${String(Math.floor(prog * len)).padStart(2, '0')} / ${P[2]}`;
+  document.getElementById('npb').style.width = (prog * 100).toFixed(1) + '%';
+  const lv = isV ? 0 : Math.round(8 + 16 * amp(Math.floor(prog * 36) + pi * 17, pi * 1.3 + .4, 36) * (1 - prog * .5));
+  leds('sm1', lv); document.getElementById('sdb').textContent = lv ? `−${30 - lv} dB` : '—';
+}
+
+/* ---------- deterministic seek ---------- */
+window.__seek = (t, dur) => {
+  window.__seeking = true;
+  if (SCREEN === 'live') liveAt(t, dur);
+  if (SCREEN === 'voicelab') labAt(t, dur);
+  if (SCREEN === 'soundboard') sbAt(t, dur);
+};
+// static first paint (screenshots without t)
+setVoice(0); window.__seek(SCREEN === 'voicelab' ? 2700 : SCREEN === 'soundboard' ? 400 : 2100, 6000); window.__seeking = false;
+if (!['live', 'voicelab', 'soundboard'].includes(SCREEN)) { leds('m1', 15); leds('m2', 23); }
+// live preview loop when opened in a browser
+const t0 = performance.now();
+(function loop() {
+  if (window.__seeking) return;
+  window.__seek((performance.now() - t0) % 6000, 6000); window.__seeking = false;
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

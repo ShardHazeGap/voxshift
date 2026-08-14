@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Discord — help & voice sharing
+    url: https://github.com/DISCORD_INVITE
+    about: Fastest way to get setup help for Discord, OBS and games.
+  - name: 🗳️ Feature voting
+    url: https://github.com/ShardHazeGap/voxshift/discussions/categories/ideas
+    about: Upvote ideas from the community.
+  - name: 🔒 Security vulnerability
+    url: https://github.com/ShardHazeGap/voxshift/security/advisories/new
+    about: Please report security issues privately.

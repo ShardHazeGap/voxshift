@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="VoxShift logo — free AI voice changer">
+  <rect width="256" height="256" rx="56" fill="#ff5b1f"/>
+  <g stroke="#140600" stroke-width="22" stroke-linecap="round" fill="none">
+    <path d="M58 68v32"/>
+    <path d="M93 94v44"/>
+    <path d="M128 132v56"/>
+    <path d="M163 94v44"/>
+    <path d="M198 68v32"/>
+  </g>
+</svg>

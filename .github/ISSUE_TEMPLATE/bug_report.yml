@@ -1,0 +1,53 @@
+name: 🐞 Bug report
+description: Something isn't working in VoxShift
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting! Please search [existing issues](https://github.com/ShardHazeGap/voxshift/issues) first.
+        Tip: *Settings → About → Copy diagnostics* fills most fields below.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: Steps to reproduce, what you expected and what you got.
+      placeholder: "1. Select voice 'Nova'  2. Turn Voice ON  3. Discord hears robotic crackle"
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options: [Live voice, Voice Lab (cloning), Voice Library, Soundboard / hotkeys, Converter / TTS, Virtual mic driver, Installer / updates, Other]
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options: [Windows 11, Windows 10, macOS (Apple Silicon), macOS (Intel), Linux]
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: VoxShift version
+      placeholder: "1.0.0"
+    validations:
+      required: true
+  - type: input
+    id: hw
+    attributes:
+      label: GPU / CPU / microphone
+      placeholder: "RTX 3060 · Ryzen 5 5600 · HyperX QuadCast"
+  - type: input
+    id: latency
+    attributes:
+      label: Latency shown in app (ms) and backend
+      placeholder: "34 ms · CUDA · WASAPI · buffer 256"
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / diagnostics
+      render: shell

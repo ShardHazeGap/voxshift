@@ -1,0 +1,28 @@
+name: ✨ Feature request
+description: Suggest an idea for VoxShift
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this solve?
+      placeholder: "When I stream on Twitch I want to…"
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+  - type: dropdown
+    id: who
+    attributes:
+      label: You mostly use VoxShift for
+      multiple: true
+      options: [Discord, Streaming (OBS/Twitch), Gaming, VRChat / VTubing, Content creation / dubbing, Other]
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: Checks
+      options:
+        - label: I searched existing issues and Discussions
+          required: true
