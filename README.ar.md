@@ -356,7 +356,7 @@ VoxShift مغيّر صوت مجاني ومفتوح المصدر يعمل بال�
 <img src="https://img.shields.io/badge/CUDA%20%7C%20DirectML%20%7C%20Metal-GPU-2c2c31?style=flat-square&labelColor=111113&logo=nvidia&logoColor=ececee" alt="تسريع بطاقة الرسوميات">
 </p>
 
-مصدر تصميم الواجهة موجود في [`design/`](design/DESIGN.md) — وكل لقطة شاشة وصورة GIF في هذا الملف مولَّدة منه.
+مصدر تصميم الواجهة موجود في `design/` — وكل لقطة شاشة وصورة GIF في هذا الملف مولَّدة منه.
 
 <a id="contributing"></a>
 ## المساهمة
