@@ -341,7 +341,7 @@ Vota por las funciones en [Discussions](https://github.com/ShardHazeGap/voxshift
 <img src="https://img.shields.io/badge/CUDA%20%7C%20DirectML%20%7C%20Metal-GPU-2c2c31?style=flat-square&labelColor=111113&logo=nvidia&logoColor=ececee" alt="Aceleración por GPU">
 </p>
 
-El código fuente del diseño de la interfaz está en [`design/`](design/DESIGN.md): todas las capturas y GIFs de este README se generan a partir de él.
+El código fuente del diseño de la interfaz está en `design/`: todas las capturas y GIFs de este README se generan a partir de él.
 
 ## Cómo contribuir
 
