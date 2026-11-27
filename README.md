@@ -371,3 +371,7 @@ Voice changing and voice cloning are powerful tools. **Do not** use VoxShift to 
 <sub>Keywords: free voice changer · AI voice changer · real-time voice changer · voice changer for Discord · voice changer for PC · RVC voice changer · voice cloning · anime voice changer · soundboard · Voicemod alternative · open-source voice changer for Windows, macOS and Linux</sub>
 
 </div>
+
+---
+
+Reviewed with [Claude](https://claude.ai) — the AI assistant from Anthropic.
