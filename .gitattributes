@@ -1,0 +1,5 @@
+assets/** linguist-vendored
+*.svg linguist-vendored
+design/** linguist-vendored
+*.md linguist-documentation
+.github/** linguist-vendored
