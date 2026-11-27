@@ -353,7 +353,7 @@ VoxShift 是一款适用于 Windows、macOS 和 Linux 的免费开源 AI 变声�
 <img src="https://img.shields.io/badge/CUDA%20%7C%20DirectML%20%7C%20Metal-GPU-2c2c31?style=flat-square&labelColor=111113&logo=nvidia&logoColor=ececee" alt="GPU 加速">
 </p>
 
-UI 设计源文件位于 [`design/`](design/DESIGN.md)——本 README 中的所有截图和 GIF 均由其渲染生成。
+UI 设计源文件位于 `design/`——本 README 中的所有截图和 GIF 均由其渲染生成。
 
 <a id="contributing"></a>
 ## 参与贡献
