@@ -353,7 +353,7 @@ VoxShift इंस्टॉल करें, एक आवाज़ चुने
 <img src="https://img.shields.io/badge/CUDA%20%7C%20DirectML%20%7C%20Metal-GPU-2c2c31?style=flat-square&labelColor=111113&logo=nvidia&logoColor=ececee" alt="GPU एक्सेलेरेशन">
 </p>
 
-UI डिज़ाइन का सोर्स [`design/`](design/DESIGN.md) में है — इस README का हर स्क्रीनशॉट और GIF उसी से रेंडर किया गया है।
+UI डिज़ाइन का सोर्स `design/` में है — इस README का हर स्क्रीनशॉट और GIF उसी से रेंडर किया गया है।
 
 <a id="contributing"></a>
 ## योगदान करें
