@@ -341,7 +341,7 @@ Vote on features in [Discussions](https://github.com/ShardHazeGap/voxshift/discu
 <img src="https://img.shields.io/badge/CUDA%20%7C%20DirectML%20%7C%20Metal-GPU-2c2c31?style=flat-square&labelColor=111113&logo=nvidia&logoColor=ececee" alt="GPU acceleration">
 </p>
 
-UI design source lives in [`design/`](design/DESIGN.md) — every screenshot and GIF in this README is rendered from it.
+UI design source lives in `design/` — every screenshot and GIF in this README is rendered from it.
 
 ## Contributing
 
