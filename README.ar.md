@@ -17,7 +17,6 @@
 
 <p>
 <a href="https://github.com/ShardHazeGap/voxshift/releases/latest"><img src="https://img.shields.io/github/v/release/ShardHazeGap/voxshift?style=flat-square&labelColor=111113&color=ff5b1f&label=release" alt="أحدث إصدار من مغيّر الصوت VoxShift"></a>
-<a href="https://github.com/ShardHazeGap/voxshift/releases"><img src="https://img.shields.io/github/downloads/ShardHazeGap/voxshift/total?style=flat-square&labelColor=111113&color=2c2c31&label=downloads" alt="إجمالي تنزيلات VoxShift"></a>
 <a href="https://github.com/ShardHazeGap/voxshift/stargazers"><img src="https://img.shields.io/github/stars/ShardHazeGap/voxshift?style=flat-square&labelColor=111113&color=2c2c31" alt="نجوم GitHub"></a>
 <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-2c2c31?style=flat-square&labelColor=111113" alt="رخصة MIT"></a>
 <img src="https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-2c2c31?style=flat-square&labelColor=111113" alt="Windows و macOS و Linux">
