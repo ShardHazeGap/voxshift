@@ -13,7 +13,6 @@
 
 <p>
 <a href="https://github.com/ShardHazeGap/voxshift/releases/latest"><img src="https://img.shields.io/github/v/release/ShardHazeGap/voxshift?style=flat-square&labelColor=111113&color=ff5b1f&label=release" alt="Latest release of VoxShift voice changer"></a>
-<a href="https://github.com/ShardHazeGap/voxshift/releases"><img src="https://img.shields.io/github/downloads/ShardHazeGap/voxshift/total?style=flat-square&labelColor=111113&color=2c2c31&label=downloads" alt="VoxShift total downloads"></a>
 <a href="https://github.com/ShardHazeGap/voxshift/stargazers"><img src="https://img.shields.io/github/stars/ShardHazeGap/voxshift?style=flat-square&labelColor=111113&color=2c2c31" alt="GitHub stars"></a>
 <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-2c2c31?style=flat-square&labelColor=111113" alt="MIT license"></a>
 <img src="https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-2c2c31?style=flat-square&labelColor=111113" alt="Windows, macOS, Linux">
